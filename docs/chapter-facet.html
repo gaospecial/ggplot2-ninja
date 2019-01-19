@@ -159,14 +159,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
 <span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(mpg, disp)) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>cyl)</code></pre>
-<p><img src="clusterProfiler_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p><code>ggplot2</code>提供了<code>facet_grid()</code>和<code>facet_wrap()</code>两个函数，来实现分面可视化。上面的示例向我们展示了分面的用法，它提供给我们以纵向或横向的形式比较不同的类别，这里比较一个变量<code>cyl</code>（轮子数）中的三个元素，这是分面最常用的用法，同一变量中不同的取值，对数据进行切割，以横向或纵向比较，比如不同物种中某个相同的特征进行比较，比如按照月份切割可视化一年的数据等等。</p>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><code>ggplot2</code>提供了<code>facet_grid()</code>和<code>facet_wrap()</code>两个函数，来实现分面可视化。上面的示例向我们展示了分面的用法，它提供给我们以纵向或横向的形式比较不同的类别，这里比较一个变量<code>cyl</code>（轮子数）中的三个元素，这是分面最常用的用法，同一变量中不同的取值，对数据进行切割，以横向或纵向比较，比如不同物种中某个相同的特征进行比较，按照月份切割可视化一年的数据，机器学习中训练集和测试集的比较。</p>
 <div id="section-1" class="section level2">
 <h2><span class="header-section-number">2.1</span> 背景数据</h2>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(mpg, disp)) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> mtcars[, <span class="dv">-2</span>], <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> <span class="kw">factor</span>(cyl))) <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>cyl)</code></pre>
-<p><img src="clusterProfiler_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="section-2" class="section level2">
 <h2><span class="header-section-number">2.2</span> 特定的分面</h2>
@@ -177,7 +177,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> <span class="kw">factor</span>(cyl))) <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>cyl) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> d, <span class="dt">shape =</span> <span class="dv">2</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">data =</span> d, <span class="dt">size=</span><span class="dv">5</span>)</code></pre>
-<p><img src="clusterProfiler_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="extra-facet" class="section level2">
 <h2><span class="header-section-number">2.3</span> 额外的分面</h2>
@@ -189,13 +189,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> mtcars[, <span class="dv">-2</span>], <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> <span class="kw">factor</span>(cyl))) <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>cyl) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> d)</code></pre>
-<p><img src="clusterProfiler_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>这样就加上额外的分面了，当然有一个问题是额外加的分面没有上色，这个解决方案就是先不加色，而在后面再映射颜色。</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(mpg, disp)) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> mtcars[, <span class="dv">-2</span>], <span class="dt">color =</span> <span class="st">&#39;grey&#39;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>cyl) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> d) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">color =</span> <span class="kw">factor</span>(cyl))</code></pre>
-<p><img src="clusterProfiler_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="section-3" class="section level2">
 <h2><span class="header-section-number">2.4</span> 坐标轴截断</h2>
@@ -205,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 )
 
 <span class="kw">ggplot</span>(d, <span class="kw">aes</span>(x, y)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>()</code></pre>
-<p><img src="clusterProfiler_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 
 breaks =<span class="st"> </span><span class="kw">c</span>(<span class="dv">7</span>, <span class="dv">17</span>)
@@ -223,7 +223,7 @@ p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(d, <span class="k
 <span class="st">    </span><span class="kw">facet_grid</span>(.type <span class="op">~</span><span class="st"> </span>., <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">theme</span>(<span class="dt">strip.text=</span><span class="kw">element_blank</span>())
 p</code></pre>
-<p><img src="clusterProfiler_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="section-4" class="section level2">
 <h2><span class="header-section-number">2.5</span> 不想干的分面</h2>
