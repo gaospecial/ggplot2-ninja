@@ -199,7 +199,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="section-3" class="section level2">
 <h2><span class="header-section-number">2.4</span> 坐标轴截断</h2>
-<pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2019-01-19</span>)
+d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
     <span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, 
     <span class="dt">y =</span> <span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span><span class="dv">4</span>, <span class="kw">rnorm</span>(<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span><span class="dv">20</span>, <span class="kw">rnorm</span>(<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span><span class="dv">5</span>, <span class="kw">rnorm</span>(<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span><span class="dv">22</span>)
 )
@@ -217,7 +218,7 @@ d &lt;-<span class="st"> </span><span class="kw">filter</span>(d, .type <span cl
 <span class="st">    </span><span class="kw">mutate</span>(<span class="dt">.type =</span> <span class="st">&quot;small&quot;</span>, <span class="dt">y =</span> breaks[<span class="dv">1</span>]) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">bind_rows</span>(d)
 
-mymin =<span class="st"> </span><span class="cf">function</span>(y) <span class="kw">ifelse</span>(y <span class="op">&lt;=</span><span class="st"> </span><span class="dv">7</span>, <span class="dv">0</span>, <span class="dv">17</span>)               
+mymin =<span class="st"> </span><span class="cf">function</span>(y) <span class="kw">ifelse</span>(y <span class="op">&lt;=</span><span class="st"> </span>breaks[<span class="dv">1</span>], <span class="dv">0</span>, breaks[<span class="dv">2</span>])               
 p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(d, <span class="kw">aes</span>(x, y)) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_rect</span>(<span class="kw">aes</span>(<span class="dt">xmin =</span> x <span class="op">-</span><span class="st"> </span><span class="fl">.4</span>, <span class="dt">xmax =</span> x <span class="op">+</span><span class="st"> </span><span class="fl">.4</span>, <span class="dt">ymin =</span> <span class="kw">mymin</span>(y), <span class="dt">ymax =</span> y)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">facet_grid</span>(.type <span class="op">~</span><span class="st"> </span>., <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span><span class="st"> </span>

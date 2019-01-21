@@ -60,6 +60,7 @@ ggplot(mtcars, aes(mpg, disp)) +
 ## 坐标轴截断
 
 ```{r}
+set.seed(2019-01-19)
 d <- data.frame(
     x = 1:20, 
     y = c(rnorm(5) + 4, rnorm(5) + 20, rnorm(5) + 5, rnorm(5) + 22)
@@ -80,7 +81,7 @@ d <- filter(d, .type == 'big') %>%
     mutate(.type = "small", y = breaks[1]) %>% 
     bind_rows(d)
 
-mymin = function(y) ifelse(y <= 7, 0, 17)               
+mymin = function(y) ifelse(y <= breaks[1], 0, breaks[2])               
 p <- ggplot(d, aes(x, y)) + 
     geom_rect(aes(xmin = x - .4, xmax = x + .4, ymin = mymin(y), ymax = y)) +
     facet_grid(.type ~ ., scales = "free") + 
