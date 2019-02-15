@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>References | ggplot2忍者秘笈</title>
-  <meta name="description" content="References | ggplot2忍者秘笈">
+  <title>Chapter 3 统计量 | ggplot2忍者秘笈</title>
+  <meta name="description" content="Chapter 3 统计量 | ggplot2忍者秘笈">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="References | ggplot2忍者秘笈" />
+  <meta property="og:title" content="Chapter 3 统计量 | ggplot2忍者秘笈" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | ggplot2忍者秘笈" />
+  <meta name="twitter:title" content="Chapter 3 统计量 | ggplot2忍者秘笈" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="chapter-summary.html">
-
+<link rel="prev" href="chapter-facet.html">
+<link rel="next" href="references.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -154,8 +154,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="chapter-summary" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> 统计量</h1>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+
+pups &lt;-<span class="st"> </span>nlme<span class="op">::</span>RatPupWeight <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">litter =</span> <span class="kw">as.integer</span>(litter))
+
+p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(pups, <span class="kw">aes</span>(<span class="dt">x =</span> litter, <span class="dt">y =</span> weight, <span class="dt">color =</span> treatment))</code></pre>
+<p>针对某一个x值，我们可以画出相应y的统计量，比如均值、方差等，这些都可以“手工”的方式通过图层叠加来实现。</p>
+<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>(<span class="dt">shape=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">size=</span><span class="dv">2</span>, <span class="dt">geom=</span><span class="st">&quot;point&quot;</span>, <span class="dt">color =</span> <span class="st">&#39;black&#39;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_summary</span>(<span class="dt">fun.data =</span> mean_cl_normal, <span class="dt">geom=</span><span class="st">&quot;errorbar&quot;</span>, <span class="dt">width=</span>.<span class="dv">1</span>, <span class="dt">color=</span><span class="st">&#39;black&#39;</span>)</code></pre>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>而图层不单单是画出几何图形而已，有一些是需要计算统计量的，最常见也最容易理解的箱式图图层<code>geom_boxplot</code>，需要计算四分位数，而有一些图层虽然看上去不需要做计算，比如显示误差的<code>geom_errorbar</code>，通常需要我们提供<code>ymin</code>和<code>ymax</code>，然而它按照我们提供的值去显示，没有涉及到图层内部的计算，但这只是默认行为而已，如果有留意<code>ggplot2</code>图层的默认参数的话，大概是会发现很多图层都有一个<code>stat = "identity"</code>的参数，这表示按照输入数据的值来画，不涉及计算，比如画柱状图的<code>geom_col</code>就是这样，它会按照用户输入的计算来画柱子的高度，而<code>geom_bar</code>的参数却不<code>stat = "count"</code>它则会去数数。所以这些图层都有<code>stat</code>参数，意味着我们可以改变默认行为的统计量来画图，比如说箱式图吧，箱体是25%, 50%, 70%的分位数来画的，假设我想用mean-sd, mean, mean+sd来画呢？当然可以。</p>
+<pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(y) {
+    r &lt;-<span class="st"> </span><span class="kw">quantile</span>(y, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>))
+    r[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">mean</span>(y) <span class="op">-</span><span class="st"> </span><span class="kw">sd</span>(y) 
+    r[<span class="dv">3</span>] &lt;-<span class="st"> </span><span class="kw">mean</span>(y)
+    r[<span class="dv">4</span>] &lt;-<span class="st"> </span><span class="kw">mean</span>(y) <span class="op">+</span><span class="st"> </span><span class="kw">sd</span>(y)
+    <span class="kw">names</span>(r) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ymin&quot;</span>, <span class="st">&quot;lower&quot;</span>, <span class="st">&quot;middle&quot;</span>, <span class="st">&quot;upper&quot;</span>, <span class="st">&quot;ymax&quot;</span>)
+    r
+}
+
+p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">stat_summary</span>(<span class="dt">fun.data=</span>f, <span class="dt">geom=</span><span class="st">&#39;boxplot&#39;</span>, <span class="dt">width=</span>.<span class="dv">8</span>) 
+p2 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">group =</span> litter))
+cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, 
+    <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;mean +- sd&quot;</span>, <span class="st">&quot;quantile&quot;</span>))</code></pre>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
+<p>使用<code>stat_smooth(method = "lm", formula = y ~ 1)</code>，可以展示某一x取值区间的平均y值。</p>
+<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span><span class="dv">1</span>)</code></pre>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>如果要计算中位数的话，可以使用<code>rlm</code>：</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MASS)
+p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;rlm&quot;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span><span class="dv">1</span>)</code></pre>
+<p><img src="ggplot2-ninja_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+
+</div>
+
+
 
 </div>
             </section>
@@ -163,8 +201,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="chapter-summary.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="chapter-facet.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
