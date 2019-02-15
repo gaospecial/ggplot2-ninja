@@ -38,7 +38,7 @@ cowplot::plot_grid(p1, p2,
     labels = c("mean +- sd", "quantile"))
 ```
 
-
+这一招也是我在[Proteomic investigation of the interactome of FMNL1 in hematopoietic cells unveils a role in calcium-dependent membrane plasticity](https://www.sciencedirect.com/science/article/pii/S1874391912007567)图一中把箱式图的中位数换成均值所使用的方法。
 
 
 
