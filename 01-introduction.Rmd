@@ -1,1 +1,62 @@
 # 简介
+
+虽然是简介，但是这里并不想讲一下入门的内容，而是对整个ggplot图形系统的内核做一简单描述。
+有些书本上讲到了“图形语法”，却对语法不做说明，让人觉得悬乎其神。事实上，“图形语法”是ggplot最基本和最应该被
+理解的部分。有了“图形语法”的认识，你在绘图时才会有的放矢的去找那些需要用到的函数，而不是两眼一抹黑的盲目去试。
+
+简单说来，“图形语法”赋予我们任意指定图形中元素的颜色、形状、大小、透明度等性质，以及字体、标尺、配色等主题属性的能力。
+
+## ggplot图形元素
+
+以一张ggplot图形为例，说明图形中元素的名称即调用函数的方法。
+
+[figure]
+
+- 分面（facet）：`facet_wrap()`, `facet_grid()`;
+- 坐标轴（axis）：`scale_x_continous()`,`scale_x_discrete()`,`scale_y_continous()`,`scale_y_discrete()`
+- 颜色（color）：`scale_color_continous()`,`scale_color_discrete()`
+- 填充（fill）：
+- 形状（shape）：
+- 分组（group）：
+- 大小（size）：
+- 透明度（alpha）：
+
+“图形语法”的存在使得我们可以很方便的指定这些元素的的属性，就好像用“语音控制”一样方便：将x轴指定为时间变量（time），
+y轴指定为生长（OD600），按照不同菌株（strain）着色，根据处理（treatment）分组（分面）。
+
+```
+data <- data.frame(time = c(1:4,1:4,1:4,1:4),
+                   OD600 = c(0.15,0.25,0.33,0.44,0.15,0.33,0.50,0.70,0.15,0.27,0.40,0.58,0.15,0.18,0.22,0.30),
+				   strain = c("wt","wt","wt","wt","mu","mu","mu","mu","wt","wt","wt","wt","mu","mu","mu","mu"),
+				   treatment = c("+","+","+","+","+","+","+","+","-","-","-","-","-","-","-","-"))
+ggplot(data,aes(x=time,y=OD600,color=strain))+geom_line()+facet_wrap(~treatment)
+```
+
+
+## 谈一谈映射关系
+
+映射关系通过 `mapping=aes()` 参数指定。ggplot2 会通过分析数值的类型将变量映射成为图形元素的属性。
+一般情况下，连续型数值变量会映射为“continous”类型，而文本和因子型变量会映射为“discrete”类型。
+
+## 继承
+
+ggplot是分层绘图，`ggplot()`函数并不绘制任何图形，通常只用来引入绘图数据、创建映射关系等，而具体绘图由
+一系列`geom_*`函数完成，常见的有`geom_point()`,`geom_col()`,`geom_boxplot()`,`geom_line()`等。这些绘图函数
+默认情况下会继承ggplot对象的数据和映射关系，一层层的叠加在一起，组成一个ggplot完整的图形。
+
+```
+ggplot(data,aes(x=time,y=OD600,color=strain))+geom_line()+geom_point()+facet_wrap(~treatment)
+```
+
+上图在原有图片上加入了一个点图层，则图形中会出现数据点。
+
+不过，这些绘图函数本身也支持指定数据和映射关系，同时拒绝继承已有的数据和映射关系。通过设置“inherit=FALSE”即可。
+
+拒绝继承大大增加了数据的操作空间。例如当我们需要把原始数据、平均值、标准差和统计检验显著性水平等绘制在一起时，
+通常会用到这一特性。
+
+```
+# example
+
+```
+
