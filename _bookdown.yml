@@ -4,6 +4,8 @@ output_dir: docs
 delete_merged_file: true
 rmd_files: ["index.Rmd",
   "01-introduction.Rmd",
+  "02-grammar-of-graphics.Rmd",
+  "03-ggplot2.Rmd",
   "facet.Rmd",
   "summary.Rmd",
   "A-app.Rmd",

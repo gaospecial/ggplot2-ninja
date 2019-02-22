@@ -45,6 +45,12 @@ Biocpkg <- function (pkg) {
 
 ```
 
-# Preface {-}
+# 前言 {-}
 
-hello
+如果你发现本书有错误或者其它问题，欢迎在github上提交issue或pull request。如果是pull request的话，请在commit的消息中写一句：“我把版权转交给余光创，”，这样我才能拥有出版这本书或者以其它形式发布的版权。
+
+
+
+
+
+

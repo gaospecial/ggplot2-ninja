@@ -1,1 +1,3 @@
-# 简介
+# (PART\*) 第一部分: ggplot2基础 {-}
+
+# 为什么要使用ggplot2 {#chapter-why-ggplot2}
