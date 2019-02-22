@@ -1,5 +1,5 @@
 [
-["index.html", "ggplot2忍者秘笈 前言", " ggplot2忍者秘笈 余光创 前言 如果你发现本书有错误或者其它问题，欢迎在github上提交issue或pull request。如果是pull request的话，请在commit的消息中写一句：“我把版权转交给余光创，”，这样我才能拥有出版这本书或者以其它形式发布的版权。 "],
+["index.html", "ggplot2忍者秘笈 前言", " ggplot2忍者秘笈 余光创 前言 这本书源自于我在公众号biobabble上分享了许多的ggplot2技巧，我觉得有必要整理一下。 扫码关注，学更多技巧 如果你发现本书有错误或者其它问题，欢迎在github上提交issue或pull request。如果是pull request的话，请在commit的消息中写一句：“我把版权转交给余光创，”，这样我才能拥有出版这本书或者以其它形式发布的版权。 "],
 ["chapter-why-ggplot2.html", "Chapter 1 为什么要使用ggplot2", " Chapter 1 为什么要使用ggplot2 "],
 ["chapter-grammar-graphics.html", "Chapter 2 图形语法简介", " Chapter 2 图形语法简介 "],
 ["chapter-distribution.html", "Chapter 3 可视化数据分布", " Chapter 3 可视化数据分布 "],
